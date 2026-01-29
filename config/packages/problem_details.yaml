@@ -1,0 +1,28 @@
+problem_details:
+  enabled: true
+  default_type: "about:blank"
+  request_id_header: "X-Request-Id"
+  set_response_request_id_header: true
+
+  apply_when:
+    path_prefixes: ["/api"]
+    accept_contains: ["application/json", "application/problem+json"]
+    content_type_contains: ["application/json", "application/ld+json"]
+
+  validation_status: 422
+  validation_type: "https://httpstatuses.com/422"
+  validation_title: "Validation Failed"
+  validation_error_code: "VALIDATION_FAILED"
+
+  include_exception_class: false
+  include_trace: false
+
+  map_exceptions:
+    Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
+      type: "https://httpstatuses.com/404"
+      title: "Not Found"
+      error_code: "NOT_FOUND"
+    Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException:
+      type: "https://httpstatuses.com/403"
+      title: "Forbidden"
+      error_code: "FORBIDDEN"

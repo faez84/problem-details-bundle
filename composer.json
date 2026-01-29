@@ -1,0 +1,28 @@
+{
+  "name": "faez84/problem-details-bundle",
+  "type": "symfony-bundle",
+  "description": "RFC 7807 Problem Details responses for Symfony APIs",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1",
+    "symfony/http-kernel": "^6.4|^7.0",
+    "symfony/http-foundation": "^6.4|^7.0",
+    "symfony/event-dispatcher": "^6.4|^7.0",
+    "symfony/options-resolver": "^6.4|^7.0"
+  },
+  "suggest": {
+    "symfony/validator": "To include ConstraintViolationList in problem details (validation errors)."
+  },
+  "autoload": {
+    "psr-4": {
+      "Faez84\\ProblemDetailsBundle\\": "src/"
+    }
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
