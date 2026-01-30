@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Faez84\EventSubscriber;
+namespace Faez84\ProblemDetailsBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
