@@ -1,7 +1,7 @@
 {
   "name": "faez84/problem-details-bundle",
   "type": "symfony-bundle",
-  "description": "RFC 7807 Problem Details responses for Symfony APIs",
+  "description": "Problem Details responses for Symfony APIs",
   "license": "MIT",
   "require": {
     "php": ">=8.1",
