@@ -26,7 +26,7 @@ final class ProblemDetailsExceptionSubscriber implements EventSubscriberInterfac
             'accept_contains' => ['application/json', 'application/problem+json'],
             'content_type_contains' => ['application/json', 'application/ld+json'],
         ],
-        private bool $expose500Message = false,
+        private bool $expose500Message = true,
     ) {}
 
     public static function getSubscribedEvents(): array
