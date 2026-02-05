@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Throwable;
 
 final class ProblemDetailsExceptionSubscriber implements EventSubscriberInterface
@@ -27,27 +29,46 @@ final class ProblemDetailsExceptionSubscriber implements EventSubscriberInterfac
             'content_type_contains' => ['application/json', 'application/ld+json'],
         ],
         private bool $expose500Message = true,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
-        return [KernelEvents::EXCEPTION => ['onKernelException', 50]];
+        return [
+            KernelEvents::EXCEPTION => ['onKernelException', 50],
+
+
+        ];
     }
 
     public function onKernelException(ExceptionEvent $event): void
     {
         $request = $event->getRequest();
 
-        if (!$this->shouldApply(
-            $request->getPathInfo(),
-            $request->headers->get('Accept'),
-            $request->headers->get('Content-Type')
-        )) {
+        if (
+            !$this->shouldApply(
+                $request->getPathInfo(),
+                $request->headers->get('Accept'),
+                $request->headers->get('Content-Type')
+            )
+        ) {
             return;
         }
 
         $e = $event->getThrowable();
-        $status = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
+        $status = 500;
+
+        if ($e instanceof AuthenticationException) {
+            $status = 401;
+        } elseif ($e instanceof AccessDeniedException) {
+            $status = 403;
+        } elseif ($e instanceof HttpExceptionInterface) {
+            $status = $e->getStatusCode();
+        }
+
+        if ($status < 100 || $status > 599) {
+            $status = 500;
+        }
 
         $title = $this->titleFor($e, $status);
 

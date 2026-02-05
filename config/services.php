@@ -16,5 +16,5 @@ return static function (ContainerConfigurator $container): void {
             'accept_contains' => ['application/json', 'application/problem+json'],
             'content_type_contains' => ['application/json', 'application/ld+json'],
         ])
-        ->arg('$expose500Message', false);
+        ->arg('$expose500Message', true);
 };
